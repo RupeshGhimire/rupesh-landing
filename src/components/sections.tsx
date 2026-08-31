@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { PERSON, SOCIALS } from "../lib/data";
 import { Reveal, useCountUp, useInView, useScramble } from "../lib/hooks";
 import { SectionHead } from "./chrome";
 import {
@@ -6,72 +7,25 @@ import {
   ArrowUpRight,
   Check,
   CopyIcon,
-  GridIcon,
-  MotionIcon,
-  PaletteIcon,
-  TypeIcon,
+  GitHubIcon,
+  LinkedInIcon,
+  MailIcon,
+  StarIcon,
 } from "./icons";
 
-/* ------------------------------------------------------------------ */
-/* Shared mini wireframe — the skeleton drawing itself                 */
-/* ------------------------------------------------------------------ */
-
-type WireRow = { label: string; kind: "bar" | "cols"; h: string; w?: string };
-
-const WIRE_ROWS: WireRow[] = [
-  { label: "NAV", kind: "bar", h: "h-2", w: "w-full" },
-  { label: "HERO", kind: "bar", h: "h-10", w: "w-3/4" },
-  { label: "TICKER", kind: "bar", h: "h-2.5", w: "w-full" },
-  { label: "GRID", kind: "cols", h: "h-9" },
-  { label: "METRICS", kind: "cols", h: "h-5" },
-  { label: "FOOTER", kind: "bar", h: "h-2", w: "w-1/2" },
-];
-
-function MiniWireframe({ rows = WIRE_ROWS }: { rows?: WireRow[] }) {
-  return (
-    <div className="space-y-2.5">
-      {rows.map((row) => (
-        <div key={row.label} className="group flex items-center gap-4">
-          {row.kind === "bar" ? (
-            <div className="flex-1">
-              <div
-                className={`${row.h} ${row.w ?? "w-full"} rounded-[2px] bg-fog/10 transition-colors duration-300 group-hover:bg-ember/70`}
-              />
-            </div>
-          ) : (
-            <div className="flex flex-1 gap-2">
-              {[0, 1, 2].map((i) => (
-                <div
-                  key={i}
-                  className={`${row.h} flex-1 rounded-[2px] bg-fog/10 transition-colors duration-300 group-hover:bg-ember/70`}
-                />
-              ))}
-            </div>
-          )}
-          <span className="w-16 text-right font-mono text-[9px] uppercase tracking-[0.2em] text-mist opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            {row.label}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-}
+const SOCIAL_ICON = {
+  github: GitHubIcon,
+  linkedin: LinkedInIcon,
+  email: MailIcon,
+};
 
 /* ------------------------------------------------------------------ */
 /* 00 — Hero                                                           */
 /* ------------------------------------------------------------------ */
 
-const SPEC_ROWS: Array<[string, string]> = [
-  ["Build", "1.0.4"],
-  ["Theme", "Dark-first"],
-  ["Blocks", "18"],
-  ["Deps", "00"],
-  ["Weight", "9.2 KB"],
-  ["License", "MIT"],
-];
-
 export function Hero() {
-  const kicker = useScramble("LANDING-PAGE FRAMEWORK — SPEC 001");
+  const kicker = useScramble("PERSONAL SITE — RUPESH GHIMIRE");
+  const [photoOk, setPhotoOk] = useState(true);
 
   return (
     <section id="top" className="relative overflow-hidden pb-20 pt-32 sm:pt-40">
@@ -81,90 +35,235 @@ export function Hero() {
 
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid items-start gap-16 lg:grid-cols-12">
-          {/* left — statement */}
+          {/* left — introduction */}
           <div className="lg:col-span-7">
-            <p className="kicker mb-8 min-h-[14px]" aria-label="Landing-page framework — spec 001">
+            <p className="kicker mb-8 min-h-[14px]" aria-label="Personal site — Rupesh Ghimire">
               {kicker}
             </p>
 
-            <h1 className="font-display text-[clamp(3rem,9vw,6.25rem)] font-bold leading-[0.98] tracking-[-0.03em] text-fog">
+            <h1 className="font-display text-[clamp(3.2rem,10vw,6.75rem)] font-bold leading-[0.96] tracking-[-0.03em] text-fog">
               <span className="mask-line">
-                <span style={{ animationDelay: "0.1s" }}>Start from</span>
+                <span style={{ animationDelay: "0.1s" }}>Rupesh</span>
               </span>
               <span className="mask-line">
                 <span style={{ animationDelay: "0.24s" }}>
-                  the <span className="text-ember">bones.</span>
+                  Ghimire<span className="text-ember">.</span>
                 </span>
               </span>
             </h1>
 
-            <Reveal delay={450}>
-              <p className="mt-8 max-w-lg text-base leading-relaxed text-mist sm:text-lg">
-                Skeleton is a dark-first landing framework for people who ship. Eighteen pre-wired
-                blocks, a strict type system, and a motion diet — the only thing left to decide is
-                what you&rsquo;re saying.
+            <Reveal delay={420}>
+              <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.22em] text-mist">
+                Software developer <span className="text-ember">/</span> web{" "}
+                <span className="text-ember">/</span> open source
               </p>
             </Reveal>
 
-            <Reveal delay={600}>
+            <Reveal delay={520}>
+              <p className="mt-7 max-w-lg text-base leading-relaxed text-mist sm:text-lg">
+                I&rsquo;ve been shipping code on GitHub since 2015 — fourteen public repositories
+                deep and still going. This page is my home base: the work, the links, and the
+                fastest way to reach me.
+              </p>
+            </Reveal>
+
+            <Reveal delay={640}>
               <div className="mt-10 flex flex-wrap items-center gap-4">
                 <a
-                  href="#quickstart"
+                  href="#work"
                   className="group flex items-center gap-3 bg-ember px-7 py-3.5 font-mono text-xs uppercase tracking-[0.16em] text-ink transition-all duration-200 hover:bg-emberhi hover:shadow-[0_0_40px_rgba(232,168,76,0.25)]"
                 >
-                  Get the skeleton
+                  See my work
                   <ArrowDown className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-y-0.5" />
                 </a>
                 <a
-                  href="#anatomy"
+                  href={`mailto:${PERSON.email}`}
                   className="group flex items-center gap-3 border border-line px-7 py-3.5 font-mono text-xs uppercase tracking-[0.16em] text-fog transition-colors duration-200 hover:border-ember/50 hover:text-ember"
                 >
-                  See the anatomy
-                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  <MailIcon className="h-3.5 w-3.5" />
+                  Get in touch
                 </a>
               </div>
             </Reveal>
 
-            <Reveal delay={750}>
+            <Reveal delay={780}>
               <p className="mt-12 font-mono text-[10px] uppercase tracking-[0.22em] text-mist/80">
-                v1.0.4 <span className="text-line">/</span> MIT{" "}
-                <span className="text-line">/</span> 9 KB gzip{" "}
-                <span className="text-line">/</span> React + Vite
+                @{PERSON.handle} <span className="text-line">/</span> est. {PERSON.since}{" "}
+                <span className="text-line">/</span> {PERSON.publicRepos} public repos
               </p>
             </Reveal>
           </div>
 
-          {/* right — spec sheet */}
+          {/* right — ID card */}
           <Reveal delay={300} className="lg:col-span-5">
             <aside className="border border-line bg-coal/60">
               <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
                 <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-mist">
-                  Spec sheet
+                  ID — profile.png
+                </span>
+                <span className="h-1.5 w-1.5 bg-ember" />
+              </div>
+
+              <div className="group relative overflow-hidden border-b border-line">
+                {photoOk ? (
+                  <img
+                    src={PERSON.photo}
+                    alt="Portrait of Rupesh Ghimire"
+                    loading="eager"
+                    onError={() => setPhotoOk(false)}
+                    className="aspect-square w-full object-cover grayscale-[25%] contrast-[1.05] transition-all duration-700 group-hover:scale-[1.03] group-hover:grayscale-0"
+                  />
+                ) : (
+                  <div className="flex aspect-square w-full items-center justify-center bg-panel font-display text-8xl font-bold text-ember/70">
+                    RG
+                  </div>
+                )}
+                {/* duotone wash */}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-transparent" />
+                {/* corner ticks */}
+                <span className="pointer-events-none absolute left-3 top-3 font-mono text-xs text-fog/40">+</span>
+                <span className="pointer-events-none absolute right-3 top-3 font-mono text-xs text-fog/40">+</span>
+                {/* caption strip */}
+                <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5">
+                  <div>
+                    <p className="font-display text-lg font-semibold tracking-tight text-fog">
+                      {PERSON.name}
+                    </p>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-mist">
+                      @{PERSON.handle}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-sea" />
+                    <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-sea">
+                      Open to connect
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-px bg-line/60">
+                {SOCIALS.map((s) => {
+                  const Icon = SOCIAL_ICON[s.kind];
+                  return (
+                    <a
+                      key={s.kind}
+                      href={s.href}
+                      target={s.kind === "email" ? undefined : "_blank"}
+                      rel="noreferrer"
+                      aria-label={s.label}
+                      className="group flex flex-col items-center gap-2 bg-panel py-5 transition-colors duration-200 hover:bg-coal"
+                    >
+                      <Icon className="h-4 w-4 text-mist transition-colors duration-200 group-hover:text-ember" />
+                      <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-mist transition-colors duration-200 group-hover:text-fog">
+                        {s.label}
+                      </span>
+                    </a>
+                  );
+                })}
+              </div>
+            </aside>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 01 — About                                                          */
+/* ------------------------------------------------------------------ */
+
+const ABOUT_ROWS: Array<[string, ReactNode]> = [
+  ["Name", "Rupesh Ghimire"],
+  ["Handle", "@RupeshGhimire"],
+  ["Email", "rupacegh@gmail.com"],
+  ["GitHub", "since 2015"],
+  ["Repos", "14 public"],
+  [
+    "Status",
+    <span key="s" className="flex items-center gap-2 text-sea">
+      <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-sea" />
+      Open to connect
+    </span>,
+  ],
+];
+
+const ABOUT_POINTS = [
+  "Real projects, pulled live from GitHub",
+  "Direct links — no forms, no funnels",
+  "One email address that actually works",
+];
+
+export function About() {
+  return (
+    <section id="about" className="scroll-mt-24 py-24 sm:py-32">
+      <div className="mx-auto max-w-6xl px-6">
+        <SectionHead
+          index="01"
+          kicker="About"
+          title="The person behind the commits."
+          note="No filler — just the facts and where to find them."
+        />
+
+        <div className="grid gap-14 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <Reveal>
+              <p className="text-lg leading-relaxed text-fog/90 sm:text-xl">
+                I&rsquo;m Rupesh — a developer who likes building things that are clean, useful,
+                and <span className="text-ember">actually finished</span>. My work lives out in
+                the open: experiments, tools, and projects in progress, all public on GitHub.
+              </p>
+            </Reveal>
+            <Reveal delay={120}>
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-mist">
+                Whether it&rsquo;s a question about a repo, an idea worth prototyping, or just a
+                good link to share — my inbox is the shortest path. If something on this page
+                catches your eye, don&rsquo;t be a stranger.
+              </p>
+            </Reveal>
+            <Reveal delay={220}>
+              <ul className="mt-9 space-y-3.5">
+                {ABOUT_POINTS.map((p) => (
+                  <li key={p} className="flex items-center gap-3 text-sm text-fog/90">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center border border-sea/40 text-sea">
+                      <Check className="h-3 w-3" />
+                    </span>
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
+
+          <Reveal delay={180} className="lg:col-span-5">
+            <aside className="border border-line bg-coal/60">
+              <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
+                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-mist">
+                  Facts — facts.json
                 </span>
                 <span className="h-1.5 w-1.5 bg-ember" />
               </div>
               <dl className="px-5 py-2">
-                {SPEC_ROWS.map(([k, v]) => (
+                {ABOUT_ROWS.map(([k, v]) => (
                   <div
                     key={k}
-                    className="group flex items-center justify-between border-b border-line/50 py-2.5 last:border-b-0"
+                    className="group flex items-center justify-between gap-4 border-b border-line/50 py-3 last:border-b-0"
                   >
                     <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-mist">
                       {k}
                     </dt>
-                    <dd className="font-mono text-xs text-fog transition-colors duration-200 group-hover:text-ember">
+                    <dd className="text-right font-mono text-xs text-fog transition-colors duration-200 group-hover:text-ember">
                       {v}
                     </dd>
                   </div>
                 ))}
               </dl>
-              <div className="border-t border-line px-5 py-5">
-                <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-mist/70">
-                  Preview — index.html
-                </p>
-                <MiniWireframe />
-                <p className="mt-4 font-mono text-[9px] uppercase tracking-[0.18em] text-mist/50">
-                  Hover to identify sections
+              <div className="border-t border-line px-5 py-4">
+                <p className="font-mono text-[9px] uppercase leading-[1.8] tracking-[0.18em] text-mist/60">
+                  Verified links only — every row above
+                  <br />
+                  routes somewhere real.
                 </p>
               </div>
             </aside>
@@ -176,233 +275,201 @@ export function Hero() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 01 — Anatomy index                                                  */
+/* 02 — Work (live from the GitHub API)                                */
 /* ------------------------------------------------------------------ */
 
-const ANATOMY = [
-  { num: "01", title: "Navigation", desc: "Fixed bar that earns its border on scroll", tag: "STICKY" },
-  { num: "02", title: "Hero", desc: "Asymmetric grid with line-mask reveal", tag: "12-COL" },
-  { num: "03", title: "Ticker", desc: "Infinite trait marquee, pausable by taste", tag: "MOTION" },
-  { num: "04", title: "Block grid", desc: "Asymmetric bento — never a row of equals", tag: "BENTO" },
-  { num: "05", title: "Metrics", desc: "Counters that fire the moment they land in view", tag: "DATA" },
-  { num: "06", title: "Quickstart", desc: "One command between zero and deployed", tag: "CLI" },
-  { num: "07", title: "Footer", desc: "Quiet, complete, status-aware", tag: "END" },
-];
+type Repo = {
+  name: string;
+  description: string | null;
+  language: string | null;
+  stargazers_count: number;
+  updated_at: string;
+  html_url: string;
+  fork: boolean;
+};
 
-export function Anatomy() {
+const LANG_COLORS: Record<string, string> = {
+  JavaScript: "#f1e05a",
+  TypeScript: "#3178c6",
+  Python: "#3572a5",
+  HTML: "#e34c26",
+  CSS: "#563d7c",
+  Java: "#b07219",
+  C: "#555555",
+  "C++": "#f34b7d",
+  Shell: "#89e051",
+  "Jupyter Notebook": "#da5b0b",
+  Dart: "#00b4ab",
+  Kotlin: "#a97bff",
+  Go: "#00add8",
+  Rust: "#dea584",
+  PHP: "#4f5d95",
+};
+
+function formatUpdated(iso: string) {
+  return new Date(iso).toLocaleDateString("en-US", { month: "short", year: "numeric" });
+}
+
+function RepoCard({ repo, index }: { repo: Repo; index: number }) {
+  const langColor = (repo.language && LANG_COLORS[repo.language]) || "var(--color-ember)";
   return (
-    <section id="anatomy" className="scroll-mt-24 py-24 sm:py-32">
-      <div className="mx-auto max-w-6xl px-6">
-        <SectionHead
-          index="01"
-          kicker="Anatomy"
-          title="Every section, accounted for."
-          note="Seven load-bearing bones. Each one swappable, none optional."
-        />
-
-        <Reveal>
-          <div className="border-b border-line">
-            {ANATOMY.map((row, i) => (
-              <Reveal key={row.num} delay={i * 60}>
-                <a
-                  href={`#${["top", "top", "top", "blocks", "metrics", "quickstart", "top"][i]}`}
-                  className="group grid grid-cols-[3rem_1fr_auto] items-center gap-4 border-t border-line px-2 py-5 transition-colors duration-200 hover:bg-fog/[0.02] sm:grid-cols-[4rem_1fr_1.1fr_auto_auto] sm:py-6"
-                >
-                  <span className="font-mono text-xs text-mist transition-colors duration-200 group-hover:text-ember">
-                    {row.num}
-                  </span>
-                  <span className="font-display text-xl font-semibold tracking-tight text-fog sm:text-2xl">
-                    {row.title}
-                  </span>
-                  <span className="hidden text-sm leading-relaxed text-mist sm:block">
-                    {row.desc}
-                  </span>
-                  <span className="hidden border border-line px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.2em] text-mist transition-colors duration-200 group-hover:border-ember/40 group-hover:text-ember sm:block">
-                    {row.tag}
-                  </span>
-                  <ArrowUpRight className="h-4 w-4 -translate-x-1 text-ember opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100" />
-                </a>
-              </Reveal>
-            ))}
-          </div>
-        </Reveal>
-      </div>
-    </section>
+    <Reveal delay={index * 70} className="h-full">
+      <a
+        href={repo.html_url}
+        target="_blank"
+        rel="noreferrer"
+        className="group flex h-full flex-col border border-line bg-panel/60 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-ember/30 hover:bg-panel"
+      >
+        <div className="mb-5 flex items-start justify-between gap-4">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-mist/70">
+            repo / {String(index + 1).padStart(2, "0")}
+          </p>
+          <ArrowUpRight className="h-4 w-4 -translate-x-1 text-ember opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100" />
+        </div>
+        <h3 className="font-display text-xl font-semibold tracking-tight text-fog transition-colors duration-200 group-hover:text-emberhi">
+          {repo.name}
+        </h3>
+        <p className="mt-3 line-clamp-2 flex-1 text-sm leading-relaxed text-mist">
+          {repo.description || "No description — the code speaks for itself."}
+        </p>
+        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line/60 pt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-mist">
+          {repo.language && (
+            <span className="flex items-center gap-2">
+              <span
+                className="h-2 w-2 rounded-full"
+                style={{ backgroundColor: langColor }}
+              />
+              {repo.language}
+            </span>
+          )}
+          <span className="flex items-center gap-1.5">
+            <StarIcon className="h-3 w-3" />
+            {repo.stargazers_count}
+          </span>
+          <span className="ml-auto normal-case tracking-normal">
+            updated {formatUpdated(repo.updated_at)}
+          </span>
+        </div>
+      </a>
+    </Reveal>
   );
 }
 
-/* ------------------------------------------------------------------ */
-/* 02 — Blocks                                                         */
-/* ------------------------------------------------------------------ */
-
-const TOKENS = [
-  { name: "Ink", hex: "#0A0C0F", swatch: "bg-[#0a0c0f]" },
-  { name: "Coal", hex: "#10141A", swatch: "bg-[#10141a]" },
-  { name: "Fog", hex: "#E8EBF1", swatch: "bg-[#e8ebf1]" },
-  { name: "Ember", hex: "#E8A84C", swatch: "bg-[#e8a84c]" },
-  { name: "Sea", hex: "#63D6C2", swatch: "bg-[#63d6c2]" },
-];
-
-const MOTIONS = [
-  { name: "Line-mask reveals", desc: "headlines rise, never fade" },
-  { name: "Scramble decode", desc: "kickers earn their letters" },
-  { name: "Count-up metrics", desc: "numbers land on arrival" },
-  { name: "Infinite ticker", desc: "traits on a slow loop" },
-];
-
-function BlockShell({
-  icon,
-  tag,
-  title,
-  copy,
-  children,
-  className = "",
-}: {
-  icon: React.ReactNode;
-  tag: string;
-  title: string;
-  copy: string;
-  children?: React.ReactNode;
-  className?: string;
-}) {
+function WorkSkeleton() {
   return (
-    <article
-      className={`group flex flex-col border border-line bg-panel/60 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-ember/30 hover:bg-panel sm:p-7 ${className}`}
-    >
-      <div className="mb-6 flex items-center justify-between">
-        <span className="text-ember">{icon}</span>
-        <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-mist/70 transition-colors duration-200 group-hover:text-ember/80">
-          {tag}
-        </span>
-      </div>
-      <h3 className="font-display text-xl font-semibold tracking-tight text-fog sm:text-2xl">
-        {title}
-      </h3>
-      <p className="mt-3 text-sm leading-relaxed text-mist">{copy}</p>
-      {children && <div className="mt-auto pt-7">{children}</div>}
-    </article>
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} className="animate-pulse border border-line bg-panel/40 p-6">
+          <div className="mb-6 h-2.5 w-16 bg-fog/10" />
+          <div className="h-5 w-32 bg-fog/10" />
+          <div className="mt-4 h-3 w-full bg-fog/5" />
+          <div className="mt-2 h-3 w-2/3 bg-fog/5" />
+          <div className="mt-8 h-2.5 w-24 bg-fog/5" />
+        </div>
+      ))}
+    </div>
   );
 }
 
-export function Blocks() {
+export function Work() {
+  const [repos, setRepos] = useState<Repo[] | null>(null);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    const ctrl = new AbortController();
+    fetch(PERSON.githubApi, { signal: ctrl.signal, headers: { Accept: "application/vnd.github+json" } })
+      .then((res) => {
+        if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+        return res.json() as Promise<Repo[]>;
+      })
+      .then((data) => {
+        const sorted = data
+          .filter((r) => !r.fork)
+          .sort(
+            (a, b) =>
+              b.stargazers_count - a.stargazers_count ||
+              +new Date(b.updated_at) - +new Date(a.updated_at),
+          )
+          .slice(0, 6);
+        setRepos(sorted);
+      })
+      .catch((err: unknown) => {
+        if ((err as Error).name !== "AbortError") setFailed(true);
+      });
+    return () => ctrl.abort();
+  }, []);
+
   return (
-    <section id="blocks" className="scroll-mt-24 border-t border-line/70 py-24 sm:py-32">
+    <section id="work" className="scroll-mt-24 border-t border-line/70 py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <SectionHead
           index="02"
-          kicker="Blocks"
-          title="Blocks, not boilerplate."
-          note="Four of the eighteen. Every one rendered on a 12-column grid."
+          kicker="Work"
+          title="Selected repositories."
+          note="Pulled live from the GitHub API — always current."
         />
 
-        <div className="grid gap-5 lg:grid-cols-12">
-          <Reveal className="lg:col-span-7">
-            <BlockShell
-              icon={<GridIcon />}
-              tag="Self-referential"
-              title="A page that explains itself"
-              copy="This block is rendering the page you're reading. Swap the wireframe for a product shot and the skeleton holds its shape — the proportions were drawn first."
-              className="h-full"
-            >
-              <div className="border border-line/70 bg-ink/60 p-5">
-                <MiniWireframe />
+        {repos === null && !failed && <WorkSkeleton />}
+
+        {failed && (
+          <Reveal>
+            <div className="flex flex-col items-start gap-5 border border-line bg-panel/60 p-8 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ember">
+                  fetch — temporarily unavailable
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-mist">
+                  The live feed is resting. Everything is still one click away on the profile.
+                </p>
               </div>
-            </BlockShell>
+              <a
+                href={PERSON.github}
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-center gap-3 border border-line px-6 py-3 font-mono text-xs uppercase tracking-[0.16em] text-fog transition-colors duration-200 hover:border-ember/50 hover:text-ember"
+              >
+                <GitHubIcon className="h-4 w-4" />
+                Open GitHub
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </a>
+            </div>
           </Reveal>
+        )}
 
-          <Reveal delay={120} className="lg:col-span-5">
-            <BlockShell
-              icon={<PaletteIcon />}
-              tag="Theming"
-              title="Dark-first tokens"
-              copy="Five tokens carry the whole theme. Ink grounds, coal lifts, fog speaks, ember points, sea confirms."
-              className="h-full"
-            >
-              <ul className="space-y-2.5">
-                {TOKENS.map((t) => (
-                  <li
-                    key={t.name}
-                    className="group/token flex items-center gap-3 transition-transform duration-200 hover:translate-x-1"
-                  >
-                    <span
-                      className={`h-7 w-7 shrink-0 border border-line ${t.swatch}`}
-                    />
-                    <span className="w-14 font-mono text-[10px] uppercase tracking-[0.18em] text-fog">
-                      {t.name}
-                    </span>
-                    <span className="font-mono text-[10px] tracking-[0.12em] text-mist transition-colors duration-200 group-hover/token:text-ember">
-                      {t.hex}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </BlockShell>
-          </Reveal>
-
-          <Reveal className="lg:col-span-5">
-            <BlockShell
-              icon={<TypeIcon />}
-              tag="Type"
-              title="Three voices, one system"
-              copy="Space Grotesk headlines, Instrument Sans body, JetBrains Mono metadata — tuned to sit on dark without glare."
-              className="h-full"
-            >
-              <ul className="divide-y divide-line/60 border-y border-line/60">
-                {[
-                  ["Aa", "Space Grotesk", "Display", "font-display"],
-                  ["Aa", "Instrument Sans", "Body", "font-body"],
-                  ["Aa", "JetBrains Mono", "Code", "font-mono"],
-                ].map(([glyph, name, role, cls]) => (
-                  <li key={name} className="flex items-center gap-4 py-3">
-                    <span className={`${cls} w-10 text-2xl text-fog`}>{glyph}</span>
-                    <span className="flex-1 text-sm text-fog">{name}</span>
-                    <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-mist">
-                      {role}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </BlockShell>
-          </Reveal>
-
-          <Reveal delay={120} className="lg:col-span-7">
-            <BlockShell
-              icon={<MotionIcon />}
-              tag="Motion"
-              title="A strict motion diet"
-              copy="Four signatures, used on purpose. Everything honors prefers-reduced-motion and falls back to stillness gracefully."
-              className="h-full"
-            >
-              <ul className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
-                {MOTIONS.map((m) => (
-                  <li key={m.name} className="group/motion flex items-baseline gap-3">
-                    <Check className="h-3.5 w-3.5 shrink-0 translate-y-0.5 text-sea" />
-                    <span>
-                      <span className="block text-sm font-medium text-fog">{m.name}</span>
-                      <span className="font-mono text-[10px] lowercase tracking-[0.08em] text-mist">
-                        — {m.desc}
-                      </span>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </BlockShell>
-          </Reveal>
-        </div>
+        {repos !== null && !failed && (
+          <>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {repos.map((repo, i) => (
+                <RepoCard key={repo.name} repo={repo} index={i} />
+              ))}
+            </div>
+            <Reveal delay={200}>
+              <a
+                href={PERSON.github}
+                target="_blank"
+                rel="noreferrer"
+                className="group mt-10 inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.16em] text-mist transition-colors duration-200 hover:text-ember"
+              >
+                Browse all {PERSON.publicRepos} repositories
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </a>
+            </Reveal>
+          </>
+        )}
       </div>
     </section>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* 03 — Metrics                                                        */
+/* 03 — Numbers                                                        */
 /* ------------------------------------------------------------------ */
 
 const STATS = [
-  { value: 18, suffix: "", label: "Blocks shipped" },
-  { value: 9, suffix: " KB", label: "Gzipped weight" },
-  { value: 100, suffix: "", label: "Lighthouse score" },
-  { value: 0, suffix: "", label: "Dependencies" },
+  { value: 14, suffix: "", label: "Public repositories" },
+  { value: 10, suffix: "+", label: "Years on GitHub" },
+  { value: 2, suffix: "", label: "Followers & counting" },
+  { value: 1, suffix: "", label: "Inbox — always open" },
 ];
 
 function Stat({
@@ -428,16 +495,16 @@ function Stat({
   );
 }
 
-export function Metrics() {
+export function Numbers() {
   const { ref, inView } = useInView<HTMLDivElement>(0.3);
   return (
-    <section id="metrics" className="scroll-mt-24 border-t border-line/70 bg-coal/30 py-24 sm:py-32">
+    <section id="numbers" className="scroll-mt-24 border-t border-line/70 bg-coal/30 py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <SectionHead
           index="03"
-          kicker="Metrics"
-          title="Numbers that arrive on time."
-          note="Measured on the skeleton itself — this very page."
+          kicker="Numbers"
+          title="Small numbers, honestly earned."
+          note="Straight from the GitHub API — no rounding up."
         />
         <Reveal>
           <div ref={ref} className="grid grid-cols-2 gap-px border border-line bg-line/60 lg:grid-cols-4">
@@ -452,24 +519,21 @@ export function Metrics() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 04 — Quickstart                                                     */
+/* 04 — Contact                                                        */
 /* ------------------------------------------------------------------ */
 
-const COMMANDS = "npx create-skeleton@latest my-page\ncd my-page && npm run dev";
-
-const QUICKSTART_POINTS = [
-  "Tokens, type scale & dark theme pre-wired",
-  "Reveal, scramble & count-up hooks included",
-  "prefers-reduced-motion respected everywhere",
-  "One HTML entry — no config maze",
+const CONTACT_LINES = [
+  { label: "GitHub", value: "github.com/RupeshGhimire", href: PERSON.github, external: true },
+  { label: "LinkedIn", value: "in/rupesh-ghimire", href: PERSON.linkedin, external: true },
+  { label: "Email", value: PERSON.email, href: `mailto:${PERSON.email}`, external: false },
 ];
 
-export function Quickstart() {
+export function Contact() {
   const [copied, setCopied] = useState(false);
 
   const copy = async () => {
     try {
-      await navigator.clipboard.writeText(COMMANDS);
+      await navigator.clipboard.writeText(PERSON.email);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1800);
     } catch {
@@ -478,32 +542,65 @@ export function Quickstart() {
   };
 
   return (
-    <section id="quickstart" className="scroll-mt-24 border-t border-line/70 py-24 sm:py-32">
+    <section id="contact" className="scroll-mt-24 border-t border-line/70 py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid items-center gap-14 lg:grid-cols-2">
           <div>
             <Reveal>
-              <p className="kicker mb-4">04 / Quickstart</p>
+              <p className="kicker mb-4">04 / Contact</p>
               <h2 className="font-display text-3xl font-semibold tracking-tight text-fog sm:text-4xl lg:text-[2.75rem] lg:leading-[1.05]">
-                Zero to landing
+                The inbox is
                 <br />
-                in one command.
+                always open<span className="text-ember">.</span>
               </h2>
             </Reveal>
             <Reveal delay={120}>
               <p className="mt-6 max-w-md text-base leading-relaxed text-mist">
-                Scaffold the structure, point it at your idea, and deploy before the coffee cools.
-                Everything below the skin is already decided.
+                No contact forms, no gatekeeping. One address, checked daily — whether it&rsquo;s
+                about a repo, a project, or an idea half-formed.
               </p>
             </Reveal>
             <Reveal delay={220}>
-              <ul className="mt-8 space-y-3.5">
-                {QUICKSTART_POINTS.map((p) => (
-                  <li key={p} className="flex items-center gap-3 text-sm text-fog/90">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center border border-sea/40 text-sea">
-                      <Check className="h-3 w-3" />
-                    </span>
-                    {p}
+              <div className="mt-9 flex flex-wrap items-center gap-4">
+                <a
+                  href={`mailto:${PERSON.email}`}
+                  className="group flex items-center gap-3 bg-ember px-7 py-3.5 font-mono text-xs uppercase tracking-[0.16em] text-ink transition-all duration-200 hover:bg-emberhi hover:shadow-[0_0_40px_rgba(232,168,76,0.25)]"
+                >
+                  <MailIcon className="h-3.5 w-3.5" />
+                  Send an email
+                </a>
+                <button
+                  type="button"
+                  onClick={copy}
+                  className={`group flex items-center gap-3 border px-7 py-3.5 font-mono text-xs uppercase tracking-[0.16em] transition-all duration-200 ${
+                    copied
+                      ? "border-sea/50 text-sea"
+                      : "border-line text-fog hover:border-ember/50 hover:text-ember"
+                  }`}
+                >
+                  {copied ? <Check className="h-3.5 w-3.5" /> : <CopyIcon className="h-3.5 w-3.5" />}
+                  {copied ? "Copied" : "Copy address"}
+                </button>
+              </div>
+            </Reveal>
+            <Reveal delay={320}>
+              <ul className="mt-10 divide-y divide-line/60 border-y border-line/60">
+                {CONTACT_LINES.map((l) => (
+                  <li key={l.label}>
+                    <a
+                      href={l.href}
+                      target={l.external ? "_blank" : undefined}
+                      rel="noreferrer"
+                      className="group flex items-center justify-between gap-4 py-4 transition-colors duration-200"
+                    >
+                      <span className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.2em] text-mist">
+                        {l.label}
+                      </span>
+                      <span className="flex-1 truncate text-right font-mono text-xs text-fog transition-colors duration-200 group-hover:text-ember sm:text-sm">
+                        {l.value}
+                      </span>
+                      <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-mist transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ember" />
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -516,33 +613,56 @@ export function Quickstart() {
                 <span className="h-2.5 w-2.5 rounded-full bg-line" />
                 <span className="h-2.5 w-2.5 rounded-full bg-line" />
                 <span className="h-2.5 w-2.5 rounded-full bg-ember/50" />
-                <span className="ml-3 flex-1 font-mono text-[10px] uppercase tracking-[0.18em] text-mist">
-                  quickstart — zsh
+                <span className="ml-3 font-mono text-[10px] uppercase tracking-[0.18em] text-mist">
+                  reach-me — zsh
                 </span>
-                <button
-                  type="button"
-                  onClick={copy}
-                  className={`flex items-center gap-1.5 border px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.18em] transition-all duration-200 ${
-                    copied
-                      ? "border-sea/50 text-sea"
-                      : "border-line text-mist hover:border-ember/50 hover:text-ember"
-                  }`}
-                >
-                  {copied ? <Check className="h-3 w-3" /> : <CopyIcon className="h-3 w-3" />}
-                  {copied ? "Copied" : "Copy"}
-                </button>
               </div>
               <div className="p-5 font-mono text-[13px] leading-8 sm:p-6">
                 <p className="text-fog">
-                  <span className="mr-2 text-ember">$</span>npx create-skeleton@latest{" "}
-                  <span className="text-sea">my-page</span>
+                  <span className="mr-2 text-ember">$</span>whoami
                 </p>
-                <p className="text-fog">
-                  <span className="mr-2 text-ember">$</span>cd my-page &amp;&amp; npm run dev
+                <p className="text-mist">rupesh-ghimire</p>
+                <p className="mt-2 text-fog">
+                  <span className="mr-2 text-ember">$</span>cat contact.txt
                 </p>
                 <p className="text-mist">
-                  <span className="mr-2 text-sea">✔</span>ready in 412 ms — http://localhost:5173
+                  <span className="mr-2 text-sea">→</span>
+                  <a
+                    href={`mailto:${PERSON.email}`}
+                    className="transition-colors hover:text-ember"
+                  >
+                    {PERSON.email}
+                  </a>
+                </p>
+                <p className="text-mist">
+                  <span className="mr-2 text-sea">→</span>
+                  <a
+                    href={PERSON.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="transition-colors hover:text-ember"
+                  >
+                    github.com/RupeshGhimire
+                  </a>
+                </p>
+                <p className="text-mist">
+                  <span className="mr-2 text-sea">→</span>
+                  <a
+                    href={PERSON.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="transition-colors hover:text-ember"
+                  >
+                    linkedin.com/in/rupesh-ghimire
+                  </a>
+                </p>
+                <p className="mt-2 text-fog">
+                  <span className="mr-2 text-ember">$</span>
+                  <span className="text-mist">reply-time</span>
                   <span className="caret ml-2 inline-block h-4 w-2 translate-y-0.5 bg-ember/80" />
+                </p>
+                <p className="text-mist">
+                  <span className="mr-2 text-sea">✔</span>usually within a day
                 </p>
               </div>
             </div>
@@ -564,37 +684,40 @@ export function Cta() {
         className="text-outline pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none whitespace-nowrap font-display text-[22vw] font-bold leading-none tracking-tight"
         aria-hidden="true"
       >
-        SKELETON
+        RUPESH
       </p>
 
       <div className="relative mx-auto max-w-6xl px-6 py-28 sm:py-36">
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_auto]">
           <Reveal>
-            <p className="kicker mb-5">05 / Deploy</p>
+            <p className="kicker mb-5">05 / Next</p>
             <h2 className="font-display text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[1.02] tracking-[-0.02em] text-fog">
-              Start from
+              Let&rsquo;s make
               <br />
-              the <span className="text-ember">bones.</span>
+              something<span className="text-ember">.</span>
             </h2>
             <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.22em] text-mist">
-              MIT licensed <span className="text-line">/</span> no strings{" "}
-              <span className="text-line">/</span> no telemetry
+              No forms <span className="text-line">/</span> no funnels{" "}
+              <span className="text-line">/</span> just an inbox
             </p>
           </Reveal>
           <Reveal delay={150}>
             <div className="flex flex-col gap-4 sm:flex-row lg:flex-col">
               <a
-                href="#quickstart"
+                href={`mailto:${PERSON.email}`}
                 className="group flex items-center justify-center gap-3 bg-ember px-9 py-4 font-mono text-xs uppercase tracking-[0.16em] text-ink transition-all duration-200 hover:bg-emberhi hover:shadow-[0_0_50px_rgba(232,168,76,0.3)]"
               >
-                Get Skeleton v1.0
-                <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                <MailIcon className="h-4 w-4" />
+                {PERSON.email}
               </a>
               <a
-                href="#anatomy"
+                href={PERSON.github}
+                target="_blank"
+                rel="noreferrer"
                 className="group flex items-center justify-center gap-3 border border-line px-9 py-4 font-mono text-xs uppercase tracking-[0.16em] text-fog transition-colors duration-200 hover:border-ember/50 hover:text-ember"
               >
-                Read the anatomy
+                <GitHubIcon className="h-4 w-4" />
+                GitHub profile
               </a>
             </div>
           </Reveal>

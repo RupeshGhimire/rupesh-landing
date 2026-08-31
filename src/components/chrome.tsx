@@ -1,12 +1,22 @@
 import { useEffect, useState } from "react";
+import { PERSON, SOCIALS } from "../lib/data";
 import { Reveal } from "../lib/hooks";
-import { ArrowUpRight, CloseIcon, LogoMark, MenuIcon, Spark } from "./icons";
+import {
+  ArrowUpRight,
+  CloseIcon,
+  GitHubIcon,
+  LinkedInIcon,
+  LogoMark,
+  MailIcon,
+  MenuIcon,
+  Spark,
+} from "./icons";
 
 const NAV_LINKS = [
-  { label: "Anatomy", href: "#anatomy" },
-  { label: "Blocks", href: "#blocks" },
-  { label: "Metrics", href: "#metrics" },
-  { label: "Quickstart", href: "#quickstart" },
+  { label: "About", href: "#about" },
+  { label: "Work", href: "#work" },
+  { label: "Numbers", href: "#numbers" },
+  { label: "Contact", href: "#contact" },
 ];
 
 export function Nav() {
@@ -29,14 +39,14 @@ export function Nav() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <a href="#top" className="group flex items-center gap-2.5" aria-label="Skeleton — back to top">
+        <a href="#top" className="group flex items-center gap-2.5" aria-label="Rupesh Ghimire — back to top">
           <span className="text-fog transition-transform duration-300 group-hover:scale-110">
             <LogoMark className="h-6 w-6" />
           </span>
           <span className="font-display text-sm font-semibold tracking-[0.18em] text-fog">
-            SKELETON
+            RUPESH&nbsp;GHIMIRE
           </span>
-          <sup className="font-mono text-[9px] tracking-widest text-mist">v1.0</sup>
+          <sup className="font-mono text-[9px] tracking-widest text-mist">@rg</sup>
         </a>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
@@ -54,10 +64,10 @@ export function Nav() {
 
         <div className="flex items-center gap-3">
           <a
-            href="#quickstart"
+            href={`mailto:${PERSON.email}`}
             className="hidden border border-ember/40 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.16em] text-ember transition-all duration-200 hover:bg-ember hover:text-ink sm:block"
           >
-            Get v1.0
+            Say hi
           </a>
           <button
             type="button"
@@ -88,6 +98,12 @@ export function Nav() {
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </a>
             ))}
+            <a
+              href={`mailto:${PERSON.email}`}
+              className="mt-4 flex items-center justify-center gap-2 border border-ember/40 py-3 font-mono text-xs uppercase tracking-[0.16em] text-ember"
+            >
+              <MailIcon className="h-3.5 w-3.5" /> Say hi
+            </a>
           </nav>
         </div>
       )}
@@ -96,14 +112,14 @@ export function Nav() {
 }
 
 const TICKER_ITEMS = [
-  "Dark-first",
-  "18 blocks",
-  "Zero deps",
-  "9 KB gzipped",
-  "A11y ready",
-  "Responsive grid",
-  "Motion dieted",
-  "MIT licensed",
+  "Rupesh Ghimire",
+  "@RupeshGhimire",
+  "GitHub — 14 repos",
+  "Since 2015",
+  "Open source",
+  "Web development",
+  "Open to connect",
+  "rupacegh@gmail.com",
 ];
 
 export function Ticker() {
@@ -156,17 +172,17 @@ export function SectionHead({
 }
 
 const FOOTER_INDEX = [
-  { label: "Anatomy", href: "#anatomy" },
-  { label: "Blocks", href: "#blocks" },
-  { label: "Metrics", href: "#metrics" },
-  { label: "Quickstart", href: "#quickstart" },
+  { label: "About", href: "#about" },
+  { label: "Work", href: "#work" },
+  { label: "Numbers", href: "#numbers" },
+  { label: "Contact", href: "#contact" },
 ];
 
-const FOOTER_META = [
-  { label: "MIT License", href: "https://opensource.org/license/mit" },
-  { label: "GitHub", href: "https://github.com" },
-  { label: "Vite", href: "https://vite.dev" },
-];
+const SOCIAL_ICON = {
+  github: GitHubIcon,
+  linkedin: LinkedInIcon,
+  email: MailIcon,
+};
 
 export function Footer() {
   return (
@@ -177,17 +193,17 @@ export function Footer() {
             <a href="#top" className="flex items-center gap-2.5">
               <LogoMark className="h-6 w-6 text-fog" />
               <span className="font-display text-sm font-semibold tracking-[0.18em] text-fog">
-                SKELETON
+                RUPESH&nbsp;GHIMIRE
               </span>
             </a>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-mist">
-              A dark-first landing framework that ships the structure and stays out of the way of
-              your identity.
+              Personal corner of the internet — the work, the links, and the fastest way to say
+              hello. Built with React, Vite &amp; Tailwind.
             </p>
             <div className="mt-6 flex items-center gap-3">
               <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-sea" />
               <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-mist">
-                v1.0.4 — stable
+                Open to connect
               </span>
             </div>
           </div>
@@ -210,35 +226,41 @@ export function Footer() {
           </div>
 
           <div className="md:col-span-3">
-            <p className="kicker mb-5 !text-[10px] text-mist">Meta</p>
+            <p className="kicker mb-5 !text-[10px] text-mist">Elsewhere</p>
             <ul className="space-y-3">
-              {FOOTER_META.map((l) => (
-                <li key={l.href}>
-                  <a
-                    href={l.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group inline-flex items-center gap-2 text-sm text-mist transition-colors hover:text-fog"
-                  >
-                    {l.label}
-                    <ArrowUpRight className="h-3 w-3 opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:text-ember" />
-                  </a>
-                </li>
-              ))}
+              {SOCIALS.map((s) => {
+                const Icon = SOCIAL_ICON[s.kind];
+                return (
+                  <li key={s.kind}>
+                    <a
+                      href={s.href}
+                      target={s.kind === "email" ? undefined : "_blank"}
+                      rel="noreferrer"
+                      className="group inline-flex items-center gap-2.5 text-sm text-mist transition-colors hover:text-fog"
+                    >
+                      <Icon className="h-3.5 w-3.5 transition-colors group-hover:text-ember" />
+                      {s.label}
+                      <ArrowUpRight className="h-3 w-3 opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:text-ember" />
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
 
-        <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-line/60 pt-6">
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-line/60 pt-6">
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-mist">
-            © 2026 Skeleton — all bones reserved
+            © {new Date().getFullYear()} Rupesh Ghimire
           </p>
           <a
             href="#top"
-            className="group flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-mist transition-colors hover:text-ember"
+            className="group font-mono text-[10px] uppercase tracking-[0.18em] text-mist transition-colors hover:text-ember"
           >
-            Back to top
-            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            Back to top{" "}
+            <span className="inline-block transition-transform duration-200 group-hover:-translate-y-0.5">
+              ↑
+            </span>
           </a>
         </div>
       </div>

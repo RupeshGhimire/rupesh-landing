@@ -1,5 +1,5 @@
 import { Footer, Nav, Ticker } from "./components/chrome";
-import { Anatomy, Blocks, Cta, Hero, Metrics, Quickstart } from "./components/sections";
+import { About, Contact, Cta, Hero, Numbers, Work } from "./components/sections";
 
 function Background() {
   return (
@@ -26,10 +26,10 @@ export default function App() {
         <main>
           <Hero />
           <Ticker />
-          <Anatomy />
-          <Blocks />
-          <Metrics />
-          <Quickstart />
+          <About />
+          <Work />
+          <Numbers />
+          <Contact />
           <Cta />
         </main>
         <Footer />

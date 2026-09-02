@@ -12,6 +12,7 @@ import {
   MailIcon,
   StarIcon,
 } from "./icons";
+import { Magnetic, Parallax, SpotlightCard, Tilt } from "./motion";
 
 const SOCIAL_ICON = {
   github: GitHubIcon,
@@ -60,29 +61,32 @@ export function Hero() {
             </Reveal>
 
             <Reveal delay={520}>
-              <p className="mt-7 max-w-lg text-base leading-relaxed text-mist sm:text-lg">
-                I&rsquo;ve been shipping code on GitHub since 2015 — fourteen public repositories
-                deep and still going. This page is my home base: the work, the links, and the
-                fastest way to reach me.
+              <p className="mt-7 max-w-md text-base leading-relaxed text-mist sm:text-lg">
+                Software developer. Shipping on GitHub since 2015 — repos, tools, and the
+                occasional experiment.
               </p>
             </Reveal>
 
             <Reveal delay={640}>
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <a
-                  href="#work"
-                  className="group flex items-center gap-3 bg-ember px-7 py-3.5 font-mono text-xs uppercase tracking-[0.16em] text-ink transition-all duration-200 hover:bg-emberhi hover:shadow-[0_0_40px_rgba(232,168,76,0.25)]"
-                >
-                  See my work
-                  <ArrowDown className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-y-0.5" />
-                </a>
-                <a
-                  href={`mailto:${PERSON.email}`}
-                  className="group flex items-center gap-3 border border-line px-7 py-3.5 font-mono text-xs uppercase tracking-[0.16em] text-fog transition-colors duration-200 hover:border-ember/50 hover:text-ember"
-                >
-                  <MailIcon className="h-3.5 w-3.5" />
-                  Get in touch
-                </a>
+                <Magnetic>
+                  <a
+                    href="#work"
+                    className="group flex items-center gap-3 bg-ember px-7 py-3.5 font-mono text-xs uppercase tracking-[0.16em] text-ink transition-all duration-200 hover:bg-emberhi hover:shadow-[0_0_40px_rgba(232,168,76,0.25)]"
+                  >
+                    See my work
+                    <ArrowDown className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-y-0.5" />
+                  </a>
+                </Magnetic>
+                <Magnetic>
+                  <a
+                    href={`mailto:${PERSON.email}`}
+                    className="group flex items-center gap-3 border border-line px-7 py-3.5 font-mono text-xs uppercase tracking-[0.16em] text-fog transition-colors duration-200 hover:border-ember/50 hover:text-ember"
+                  >
+                    <MailIcon className="h-3.5 w-3.5" />
+                    Get in touch
+                  </a>
+                </Magnetic>
               </div>
             </Reveal>
 
@@ -96,7 +100,8 @@ export function Hero() {
 
           {/* right — ID card */}
           <Reveal delay={300} className="lg:col-span-5">
-            <aside className="border border-line bg-coal/60">
+            <Parallax strength={14}>
+              <aside className="floaty border border-line bg-coal/60 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)]">
               <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
                 <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-mist">
                   ID — profile.png
@@ -136,7 +141,7 @@ export function Hero() {
                   <div className="flex items-center gap-2.5">
                     <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-sea" />
                     <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-sea">
-                      Open to connect
+                      Available
                     </span>
                   </div>
                 </div>
@@ -163,6 +168,7 @@ export function Hero() {
                 })}
               </div>
             </aside>
+            </Parallax>
           </Reveal>
         </div>
       </div>
@@ -190,9 +196,8 @@ const ABOUT_ROWS: Array<[string, ReactNode]> = [
 ];
 
 const ABOUT_POINTS = [
-  "Real projects, pulled live from GitHub",
-  "Direct links — no forms, no funnels",
-  "One email address that actually works",
+  "Projects pulled live from GitHub",
+  "Direct links, nothing in between",
 ];
 
 export function About() {
@@ -202,27 +207,19 @@ export function About() {
         <SectionHead
           index="01"
           kicker="About"
-          title="The person behind the commits."
-          note="No filler — just the facts and where to find them."
+          title="The short version."
+          note="Facts only. Everything links somewhere real."
         />
 
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <Reveal>
               <p className="text-lg leading-relaxed text-fog/90 sm:text-xl">
-                I&rsquo;m Rupesh — a developer who likes building things that are clean, useful,
-                and <span className="text-ember">actually finished</span>. My work lives out in
-                the open: experiments, tools, and projects in progress, all public on GitHub.
+                I build things that are clean, useful, and <span className="text-ember">actually
+                finished</span>. Code lives public on GitHub — experiments included.
               </p>
             </Reveal>
             <Reveal delay={120}>
-              <p className="mt-6 max-w-xl text-base leading-relaxed text-mist">
-                Whether it&rsquo;s a question about a repo, an idea worth prototyping, or just a
-                good link to share — my inbox is the shortest path. If something on this page
-                catches your eye, don&rsquo;t be a stranger.
-              </p>
-            </Reveal>
-            <Reveal delay={220}>
               <ul className="mt-9 space-y-3.5">
                 {ABOUT_POINTS.map((p) => (
                   <li key={p} className="flex items-center gap-3 text-sm text-fog/90">
@@ -237,7 +234,7 @@ export function About() {
           </div>
 
           <Reveal delay={180} className="lg:col-span-5">
-            <aside className="border border-line bg-coal/60">
+            <SpotlightCard className="border border-line bg-coal/60">
               <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
                 <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-mist">
                   Facts — facts.json
@@ -261,12 +258,10 @@ export function About() {
               </dl>
               <div className="border-t border-line px-5 py-4">
                 <p className="font-mono text-[9px] uppercase leading-[1.8] tracking-[0.18em] text-mist/60">
-                  Verified links only — every row above
-                  <br />
-                  routes somewhere real.
+                  Every row routes somewhere real.
                 </p>
               </div>
-            </aside>
+            </SpotlightCard>
           </Reveal>
         </div>
       </div>
@@ -314,12 +309,14 @@ function RepoCard({ repo, index }: { repo: Repo; index: number }) {
   const langColor = (repo.language && LANG_COLORS[repo.language]) || "var(--color-ember)";
   return (
     <Reveal delay={index * 70} className="h-full">
-      <a
-        href={repo.html_url}
-        target="_blank"
-        rel="noreferrer"
-        className="group flex h-full flex-col border border-line bg-panel/60 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-ember/30 hover:bg-panel"
-      >
+      <Tilt className="h-full">
+        <SpotlightCard className="h-full">
+          <a
+            href={repo.html_url}
+            target="_blank"
+            rel="noreferrer"
+            className="group flex h-full flex-col border border-line bg-panel/60 p-6 transition-colors duration-300 hover:border-ember/30 hover:bg-panel"
+          >
         <div className="mb-5 flex items-start justify-between gap-4">
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-mist/70">
             repo / {String(index + 1).padStart(2, "0")}
@@ -350,7 +347,9 @@ function RepoCard({ repo, index }: { repo: Repo; index: number }) {
             updated {formatUpdated(repo.updated_at)}
           </span>
         </div>
-      </a>
+          </a>
+        </SpotlightCard>
+      </Tilt>
     </Reveal>
   );
 }
@@ -406,7 +405,7 @@ export function Work() {
           index="02"
           kicker="Work"
           title="Selected repositories."
-          note="Pulled live from the GitHub API — always current."
+          note="Live from the GitHub API."
         />
 
         {repos === null && !failed && <WorkSkeleton />}
@@ -416,10 +415,10 @@ export function Work() {
             <div className="flex flex-col items-start gap-5 border border-line bg-panel/60 p-8 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ember">
-                  fetch — temporarily unavailable
+                  fetch — unavailable
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-mist">
-                  The live feed is resting. Everything is still one click away on the profile.
+                  Live feed is down. Repos are still on the profile.
                 </p>
               </div>
               <a
@@ -468,8 +467,6 @@ export function Work() {
 const STATS = [
   { value: 14, suffix: "", label: "Public repositories" },
   { value: 10, suffix: "+", label: "Years on GitHub" },
-  { value: 2, suffix: "", label: "Followers & counting" },
-  { value: 1, suffix: "", label: "Inbox — always open" },
 ];
 
 function Stat({
@@ -503,8 +500,8 @@ export function Numbers() {
         <SectionHead
           index="03"
           kicker="Numbers"
-          title="Small numbers, honestly earned."
-          note="Straight from the GitHub API — no rounding up."
+          title="By the numbers."
+          note="Straight from the GitHub API."
         />
         <Reveal>
           <div ref={ref} className="grid grid-cols-2 gap-px border border-line bg-line/60 lg:grid-cols-4">
@@ -549,38 +546,39 @@ export function Contact() {
             <Reveal>
               <p className="kicker mb-4">04 / Contact</p>
               <h2 className="font-display text-3xl font-semibold tracking-tight text-fog sm:text-4xl lg:text-[2.75rem] lg:leading-[1.05]">
-                The inbox is
-                <br />
-                always open<span className="text-ember">.</span>
+                Get in touch<span className="text-ember">.</span>
               </h2>
             </Reveal>
             <Reveal delay={120}>
               <p className="mt-6 max-w-md text-base leading-relaxed text-mist">
-                No contact forms, no gatekeeping. One address, checked daily — whether it&rsquo;s
-                about a repo, a project, or an idea half-formed.
+                No forms. One address, checked daily.
               </p>
             </Reveal>
             <Reveal delay={220}>
               <div className="mt-9 flex flex-wrap items-center gap-4">
-                <a
-                  href={`mailto:${PERSON.email}`}
-                  className="group flex items-center gap-3 bg-ember px-7 py-3.5 font-mono text-xs uppercase tracking-[0.16em] text-ink transition-all duration-200 hover:bg-emberhi hover:shadow-[0_0_40px_rgba(232,168,76,0.25)]"
-                >
-                  <MailIcon className="h-3.5 w-3.5" />
-                  Send an email
-                </a>
-                <button
-                  type="button"
-                  onClick={copy}
-                  className={`group flex items-center gap-3 border px-7 py-3.5 font-mono text-xs uppercase tracking-[0.16em] transition-all duration-200 ${
-                    copied
-                      ? "border-sea/50 text-sea"
-                      : "border-line text-fog hover:border-ember/50 hover:text-ember"
-                  }`}
-                >
-                  {copied ? <Check className="h-3.5 w-3.5" /> : <CopyIcon className="h-3.5 w-3.5" />}
-                  {copied ? "Copied" : "Copy address"}
-                </button>
+                <Magnetic>
+                  <a
+                    href={`mailto:${PERSON.email}`}
+                    className="group flex items-center gap-3 bg-ember px-7 py-3.5 font-mono text-xs uppercase tracking-[0.16em] text-ink transition-all duration-200 hover:bg-emberhi hover:shadow-[0_0_40px_rgba(232,168,76,0.25)]"
+                  >
+                    <MailIcon className="h-3.5 w-3.5" />
+                    Send an email
+                  </a>
+                </Magnetic>
+                <Magnetic>
+                  <button
+                    type="button"
+                    onClick={copy}
+                    className={`group flex items-center gap-3 border px-7 py-3.5 font-mono text-xs uppercase tracking-[0.16em] transition-all duration-200 ${
+                      copied
+                        ? "border-sea/50 text-sea"
+                        : "border-line text-fog hover:border-ember/50 hover:text-ember"
+                    }`}
+                  >
+                    {copied ? <Check className="h-3.5 w-3.5" /> : <CopyIcon className="h-3.5 w-3.5" />}
+                    {copied ? "Copied" : "Copy address"}
+                  </button>
+                </Magnetic>
               </div>
             </Reveal>
             <Reveal delay={320}>
@@ -608,7 +606,7 @@ export function Contact() {
           </div>
 
           <Reveal delay={180}>
-            <div className="border border-line bg-[#0c0f14] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)]">
+            <SpotlightCard className="border border-line bg-[#0c0f14] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)]">
               <div className="flex items-center gap-2 border-b border-line px-4 py-3">
                 <span className="h-2.5 w-2.5 rounded-full bg-line" />
                 <span className="h-2.5 w-2.5 rounded-full bg-line" />
@@ -657,15 +655,14 @@ export function Contact() {
                   </a>
                 </p>
                 <p className="mt-2 text-fog">
-                  <span className="mr-2 text-ember">$</span>
-                  <span className="text-mist">reply-time</span>
-                  <span className="caret ml-2 inline-block h-4 w-2 translate-y-0.5 bg-ember/80" />
+                  <span className="mr-2 text-ember">$</span>cat reply-time
                 </p>
                 <p className="text-mist">
-                  <span className="mr-2 text-sea">✔</span>usually within a day
+                  <span className="caret ml-0 inline-block h-4 w-2 translate-y-0.5 bg-ember/80" />
+                  <span className="ml-2">~1 day</span>
                 </p>
               </div>
-            </div>
+            </SpotlightCard>
           </Reveal>
         </div>
       </div>
@@ -697,8 +694,7 @@ export function Cta() {
               something<span className="text-ember">.</span>
             </h2>
             <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.22em] text-mist">
-              No forms <span className="text-line">/</span> no funnels{" "}
-              <span className="text-line">/</span> just an inbox
+              No forms <span className="text-line">/</span> just an inbox
             </p>
           </Reveal>
           <Reveal delay={150}>

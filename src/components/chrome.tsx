@@ -118,7 +118,7 @@ const TICKER_ITEMS = [
   "Since 2015",
   "Open source",
   "Web development",
-  "Open to connect",
+  "Available",
   "rupacegh@gmail.com",
 ];
 
@@ -197,13 +197,12 @@ export function Footer() {
               </span>
             </a>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-mist">
-              Personal corner of the internet — the work, the links, and the fastest way to say
-              hello. Built with React, Vite &amp; Tailwind.
+              The work, the links, the fastest way to say hello.
             </p>
             <div className="mt-6 flex items-center gap-3">
               <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-sea" />
               <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-mist">
-                Open to connect
+                Available
               </span>
             </div>
           </div>

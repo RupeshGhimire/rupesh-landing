@@ -1,5 +1,6 @@
 import { Footer, Nav, Ticker } from "./components/chrome";
 import { About, Contact, Cta, Hero, Numbers, Work } from "./components/sections";
+import { CursorGlow, ScrollProgress } from "./components/motion";
 
 function Background() {
   return (
@@ -21,6 +22,8 @@ export default function App() {
   return (
     <div className="relative min-h-screen overflow-x-clip bg-ink font-body text-fog">
       <Background />
+      <CursorGlow />
+      <ScrollProgress />
       <div className="relative z-10">
         <Nav />
         <main>

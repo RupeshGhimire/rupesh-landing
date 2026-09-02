@@ -73,7 +73,10 @@ body {
 }
 .reveal.is-in {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+}
+.reveal {
+  transform: translateY(26px) scale(0.995);
 }
 
 /* ---------- hero line-mask reveal ---------- */
@@ -98,10 +101,27 @@ body {
 .marquee-track {
   animation: marquee 32s linear infinite;
 }
+.marquee-track:hover {
+  animation-play-state: paused;
+}
 @keyframes marquee {
   to {
     transform: translateX(-50%);
   }
+}
+
+/* ---------- floating accents ---------- */
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+.floaty {
+  animation: floaty 7s ease-in-out infinite;
 }
 
 /* ---------- terminal caret ---------- */
@@ -146,6 +166,12 @@ body {
   background-size: 72px 72px;
   mask-image: radial-gradient(ellipse 95% 75% at 50% 0%, black 25%, transparent 80%);
   -webkit-mask-image: radial-gradient(ellipse 95% 75% at 50% 0%, black 25%, transparent 80%);
+  animation: gridpan 40s linear infinite;
+}
+@keyframes gridpan {
+  to {
+    background-position: 72px 72px;
+  }
 }
 
 .glow {
@@ -177,6 +203,38 @@ body {
   opacity: 0.05;
 }
 
+/* ---------- interactive motion helpers ---------- */
+.tilt {
+  transition: transform 0.25s cubic-bezier(0.22, 0.61, 0.2, 1);
+  will-change: transform;
+}
+
+.magnetic {
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.2, 1);
+  will-change: transform;
+}
+
+.spotlight {
+  position: relative;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    320px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(232, 168, 76, 0.07),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.spotlight:hover::before {
+  opacity: 1;
+}
+
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -199,6 +257,16 @@ body {
   }
   .marquee-track {
     animation: none;
+  }
+  .floaty {
+    animation: none;
+  }
+  .tilt,
+  .magnetic {
+    transition: none;
+  }
+  .spotlight::before {
+    display: none;
   }
   .pulse-dot::after {
     display: none;

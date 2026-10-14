@@ -1,5 +1,5 @@
 import { Footer, Nav, Ticker } from "./components/chrome";
-import { About, Contact, Cta, Hero, Numbers, Work } from "./components/sections";
+import { About, Contact, Hero, Work } from "./components/sections";
 import { CursorGlow, ScrollProgress } from "./components/motion";
 
 function Background() {
@@ -31,9 +31,7 @@ export default function App() {
           <Ticker />
           <About />
           <Work />
-          <Numbers />
           <Contact />
-          <Cta />
         </main>
         <Footer />
       </div>

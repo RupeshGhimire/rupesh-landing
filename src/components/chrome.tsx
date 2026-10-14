@@ -14,8 +14,7 @@ import {
 
 const NAV_LINKS = [
   { label: "About", href: "#about" },
-  { label: "Work", href: "#work" },
-  { label: "Numbers", href: "#numbers" },
+  { label: "Experience", href: "#work" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -112,14 +111,7 @@ export function Nav() {
 }
 
 const TICKER_ITEMS = [
-  "Rupesh Ghimire",
-  "@RupeshGhimire",
-  "GitHub — 14 repos",
-  "Since 2015",
-  "Open source",
-  "Web development",
-  "Available",
-  "rupacegh@gmail.com",
+  "Data engineering", "Databricks", "Python", "SQL", "Cloud data warehouses", "PySpark", "Since 2018",
 ];
 
 export function Ticker() {
@@ -173,8 +165,7 @@ export function SectionHead({
 
 const FOOTER_INDEX = [
   { label: "About", href: "#about" },
-  { label: "Work", href: "#work" },
-  { label: "Numbers", href: "#numbers" },
+  { label: "Experience", href: "#work" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -197,14 +188,9 @@ export function Footer() {
               </span>
             </a>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-mist">
-              The work, the links, the fastest way to say hello.
+              Data engineering · Milwaukee, Wisconsin
             </p>
-            <div className="mt-6 flex items-center gap-3">
-              <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-sea" />
-              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-mist">
-                Available
-              </span>
-            </div>
+
           </div>
 
           <div className="md:col-span-3">
@@ -252,6 +238,7 @@ export function Footer() {
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-mist">
             © {new Date().getFullYear()} Rupesh Ghimire
           </p>
+          <p className="text-xs leading-relaxed text-mist">I built and deployed this page with help from AI.</p>
           <a
             href="#top"
             className="group font-mono text-[10px] uppercase tracking-[0.18em] text-mist transition-colors hover:text-ember"

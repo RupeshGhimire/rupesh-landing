@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/
+RewriteRule ^ https://rupeshghimire.com.np%{REQUEST_URI} [R=301,L]
